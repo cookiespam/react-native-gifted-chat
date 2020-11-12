@@ -1,12 +1,12 @@
 {
-  "name": "react-native-gifted-chat",
+  "name": "@cookiespam/react-native-gifted-chat",
   "version": "0.16.3",
   "description": "The most complete chat UI for React Native",
   "main": "node_modules/expo/AppEntry.js",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FaridSafi/react-native-gifted-chat.git"
+    "url": "git://github.com/cookiespam/react-native-gifted-chat.git"
   },
   "keywords": [
     "android",
@@ -28,8 +28,8 @@
     "config:dev": "json -I -f package.json -e 'this.main=\"node_modules/expo/AppEntry.js\"'",
     "config:npm": "json -I -f package.json -e 'this.main=\"lib/index.js\"'",
     "lint": "tslint --project .",
-    "lint:fix": "./node_modules/.bin/tslint ./src/**/*.{ts,tsx} --fix",
-    "tsc": "node_modules/.bin/tsc --noEmit",
+    "lint:fix": "tslint ./src/**/*.{ts,tsx} --fix",
+    "tsc": "tsc --noEmit",
     "start": "yarn config:dev && expo start",
     "start:web": "yarn config:dev && expo start -w --dev",
     "build": "rm -rf lib/ && node_modules/.bin/tsc && cp flow-typedefs/*.js.flow lib/",
@@ -38,7 +38,7 @@
     "test:coverage": "TZ=Europe/Paris jest --coverage",
     "prepublishOnly": "yarn lint && yarn build && yarn test && yarn config:npm",
     "postpublish": "yarn config:dev",
-    "prettier": "./node_modules/.bin/prettier --write \"src/**/*.{ts,tsx}\""
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\""
   },
   "jest": {
     "preset": "react-native",
@@ -120,5 +120,9 @@
     "hooks": {
       "pre-commit": "yarn lint:fix && yarn prettier && yarn tsc"
     }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
   }
 }
