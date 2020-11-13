@@ -13,6 +13,7 @@ exports[`should render <MessageContainer /> and compare with snapshot 1`] = `
     ListFooterComponent={[Function]}
     ListHeaderComponent={[Function]}
     automaticallyAdjustContentInsets={false}
+    bounces={false}
     contentContainerStyle={
       Object {
         "flexGrow": 1,
@@ -39,7 +40,7 @@ exports[`should render <MessageContainer /> and compare with snapshot 1`] = `
     numColumns={1}
     onContentSizeChange={[Function]}
     onEndReached={[Function]}
-    onEndReachedThreshold={0.1}
+    onEndReachedThreshold={0.5}
     onLayout={[Function]}
     onMomentumScrollEnd={[Function]}
     onScroll={[Function]}
@@ -80,23 +81,25 @@ exports[`should render <MessageContainer /> and compare with snapshot 1`] = `
           }
         }
       >
-        <View
-          style={
-            Object {
-              "backgroundColor": "#f0f0f0",
-              "borderRadius": 15,
-              "height": 0,
-              "marginBottom": 0,
-              "marginLeft": 8,
-              "transform": Array [
-                Object {
-                  "translateY": 200,
-                },
-              ],
-              "width": 45,
+        <View>
+          <View
+            style={
+              Object {
+                "backgroundColor": "#f0f0f0",
+                "borderRadius": 15,
+                "height": 0,
+                "marginBottom": 0,
+                "marginLeft": 8,
+                "transform": Array [
+                  Object {
+                    "translateY": 200,
+                  },
+                ],
+                "width": 45,
+              }
             }
-          }
-        />
+          />
+        </View>
       </View>
       <View
         style={
