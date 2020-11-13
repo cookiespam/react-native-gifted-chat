@@ -677,6 +677,12 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     }
   }
 
+  // Trigger onPress using ref to <GiftedChat />
+  // Eg: this._giftedChatRef.scrollToIndex({index: 8, viewOffset: 0, viewPosition: 1})
+  scrollToIndex(params: any) {
+    this._messageContainerRef?.current?.scrollToIndex(params)
+  }
+
   renderMessages() {
     const { messagesContainerStyle, ...messagesContainerProps } = this.props
     const fragment = (

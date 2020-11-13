@@ -187,6 +187,11 @@ export default class MessageContainer<
     }
   }
 
+  // Called in GiftedChat
+  scrollToIndex(params: any) {
+    this.props.forwardRef?.current?.scrollToIndex(params)
+  }
+
   handleOnScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const {
       nativeEvent: {
@@ -241,6 +246,8 @@ export default class MessageContainer<
         currentMessage: item,
         previousMessage,
         inverted,
+        // Make FlatList index available in messageProps; mapping message _id with index
+        listIndex: index,
         nextMessage,
         position: item.user._id === user._id ? 'right' : 'left',
       }

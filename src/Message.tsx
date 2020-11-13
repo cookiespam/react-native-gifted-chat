@@ -38,6 +38,7 @@ export interface MessageProps<TMessage extends IMessage> {
   currentMessage?: TMessage
   nextMessage?: TMessage
   previousMessage?: TMessage
+  listIndex: number
   user: User
   inverted?: boolean
   containerStyle?: LeftRightStyle<ViewStyle>
@@ -63,6 +64,7 @@ export default class Message<
     currentMessage: {},
     nextMessage: {},
     previousMessage: {},
+    listIndex: 0,
     user: {},
     containerStyle: {},
     showUserAvatar: false,
@@ -79,6 +81,7 @@ export default class Message<
     position: PropTypes.oneOf(['left', 'right']),
     currentMessage: PropTypes.object,
     nextMessage: PropTypes.object,
+    listIndex: PropTypes.number,
     previousMessage: PropTypes.object,
     user: PropTypes.object,
     inverted: PropTypes.bool,
