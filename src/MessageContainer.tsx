@@ -17,6 +17,7 @@ import {
 } from 'react-native'
 
 import LoadEarlier from './LoadEarlier'
+import LoadLater from './LoadLater'
 import Message from './Message'
 import Color from './Color'
 import { User, IMessage, Reply } from './Models'
@@ -71,6 +72,7 @@ export interface MessageContainerProps<TMessage extends IMessage> {
   listViewProps: Partial<ListViewProps>
   inverted?: boolean
   loadEarlier?: boolean
+  loadLater?: boolean
   alignTop?: boolean
   scrollToBottom?: boolean
   scrollToBottomStyle?: StyleProp<ViewStyle>
@@ -82,12 +84,16 @@ export interface MessageContainerProps<TMessage extends IMessage> {
   renderFooter?(props: MessageContainerProps<TMessage>): React.ReactNode
   renderMessage?(props: Message['props']): React.ReactNode
   renderLoadEarlier?(props: LoadEarlier['props']): React.ReactNode
+  renderLoadLater?(props: LoadLater['props']): React.ReactNode
   scrollToBottomComponent?(): React.ReactNode
   onLoadEarlier?(): void
+  onLoadLater?(): void
   onQuickReply?(replies: Reply[]): void
   infiniteScroll?: boolean
   onEndReachedThreshold?: number
+  onStartReachedThreshold?: number
   isLoadingEarlier?: boolean
+  isLoadingLater?: boolean
 }
 
 interface State {
@@ -105,9 +111,11 @@ export default class MessageContainer<
     renderFooter: null,
     renderMessage: null,
     onLoadEarlier: () => {},
+    onLoadLater: () => {},
     onQuickReply: () => {},
     inverted: true,
     loadEarlier: false,
+    loadLater: false,
     listViewProps: {},
     invertibleScrollViewProps: {},
     extraData: null,
@@ -117,7 +125,9 @@ export default class MessageContainer<
     scrollToBottomStyle: {},
     infiniteScroll: false,
     onEndReachedThreshold: 0.5,
+    onStartReachedThreshold: 0,
     isLoadingEarlier: false,
+    isLoadingLater: false,
   }
 
   static propTypes = {
@@ -128,10 +138,13 @@ export default class MessageContainer<
     renderFooter: PropTypes.func,
     renderMessage: PropTypes.func,
     renderLoadEarlier: PropTypes.func,
+    renderLoadLater: PropTypes.func,
     onLoadEarlier: PropTypes.func,
+    onLoadLater: PropTypes.func,
     listViewProps: PropTypes.object,
     inverted: PropTypes.bool,
     loadEarlier: PropTypes.bool,
+    loadLater: PropTypes.bool,
     invertibleScrollViewProps: PropTypes.object,
     extraData: PropTypes.object,
     scrollToBottom: PropTypes.bool,
@@ -141,6 +154,7 @@ export default class MessageContainer<
     scrollToBottomStyle: StylePropType,
     infiniteScroll: PropTypes.bool,
     onEndReachedThreshold: PropTypes.number,
+    onStartReachedThreshold: PropTypes.number,
   }
 
   state = {
@@ -159,7 +173,12 @@ export default class MessageContainer<
       return this.props.renderFooter(this.props)
     }
 
-    return this.renderTypingIndicator()
+    return (
+      <View>
+        {this.renderTypingIndicator()}
+        {this.renderLoadLater()}
+      </View>
+    )
   }
 
   renderLoadEarlier = () => {
@@ -171,6 +190,19 @@ export default class MessageContainer<
         return this.props.renderLoadEarlier(loadEarlierProps)
       }
       return <LoadEarlier {...loadEarlierProps} />
+    }
+    return null
+  }
+
+  renderLoadLater = () => {
+    if (this.props.loadLater === true) {
+      const loadLaterProps = {
+        ...this.props,
+      }
+      if (this.props.renderLoadLater) {
+        return this.props.renderLoadLater(loadLaterProps)
+      }
+      return <LoadLater {...loadLaterProps} />
     }
     return null
   }
@@ -203,7 +235,14 @@ export default class MessageContainer<
         layoutMeasurement: { height: layoutMeasurementHeight },
       },
     } = event
-    const { scrollToBottomOffset } = this.props
+    const {
+      scrollToBottomOffset,
+      onLoadLater,
+      isLoadingLater,
+      loadLater,
+      onStartReachedThreshold,
+    } = this.props
+    // console.log(event.nativeEvent)
     if (this.props.inverted) {
       if (contentOffsetY > scrollToBottomOffset!) {
         this.setState({ showScrollBottom: true })
@@ -218,6 +257,14 @@ export default class MessageContainer<
         this.setState({ showScrollBottom: true })
       } else {
         this.setState({ showScrollBottom: false })
+      }
+    }
+    if (
+      contentOffsetY === 0 ||
+      contentOffsetY <= layoutMeasurementHeight * (onStartReachedThreshold || 0)
+    ) {
+      if (loadLater && !isLoadingLater && onLoadLater) {
+        onLoadLater()
       }
     }
   }
@@ -317,7 +364,8 @@ export default class MessageContainer<
     }
   }
 
-  onEndReached = ({ distanceFromEnd }: { distanceFromEnd: number }) => {
+  onEndReached = () => {
+    // onEndReached = ({ distanceFromEnd }: { distanceFromEnd: number }) => {
     const {
       loadEarlier,
       onLoadEarlier,
@@ -373,7 +421,8 @@ export default class MessageContainer<
           scrollEventThrottle={100}
           onLayout={this.onLayoutList}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={onEndReachedThreshold || 0.5}
+          bounces={false}
+          onEndReachedThreshold={onEndReachedThreshold || 0.1}
           {...this.props.listViewProps}
         />
       </View>

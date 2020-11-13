@@ -330,6 +330,9 @@ interface QuickReplies {
 - **`isLoadingEarlier`** _(Bool)_ - Display an `ActivityIndicator` when loading earlier messages
 - **`renderLoading`** _(Function)_ - Render a loading view when initializing
 - **`renderLoadEarlier`** _(Function)_ - Custom "Load earlier messages" button
+- **`onLoadLater`** _(Function)_ - Callback when loading later messages
+- **`isLoadingLater`** _(Bool)_ - Display an `ActivityIndicator` when loading later messages
+- **`renderLoadLater`** _(Function)_ - Custom "Load later messages" button
 - **`renderAvatar`** _(Function)_ - Custom message avatar; set to `null` to not render any avatar for the message
 - **`showUserAvatar`** _(Bool)_ - Whether to render an avatar for the current user; default is `false`, only show avatars for other users
 - **`showAvatarForEveryMessage`** _(Bool)_ - When false, avatars will only be displayed when a consecutive message is from the same user on the same day; default is `false`
@@ -397,7 +400,8 @@ interface QuickReplies {
 * **`renderQuickReplySend`** _(Function)_ - Custom quick reply **send** view
 * **`shouldUpdateMessage`** _(Function)_ - Lets the message component know when to update outside of normal cases.
 * **`infiniteScroll`** _(Bool)_ - infinite scroll up when reach the top of messages container, automatically call onLoadEarlier function if exist (not yet supported for the web). You need to add `loadEarlier` prop too.
-* **`onEndReachedThreshold`** _(Number)_ - How far from the end (in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the onEndReached callback. Thus a value of 0.5 will trigger onEndReached when the end of the content is within half the visible length of the list.
+* **`onEndReachedThreshold`** _(Number)_ - How far from the end (in units of visible length of the list) the bottom edge of the list must be from the end of the content to trigger the `onLoadEarlier` callback. Thus a value of 0.5 will trigger `onLoadEarlier` when the end of the content is within half the visible length of the list.
+* **`onStartReachedThreshold`** _(Number)_ - How far from the start (in units of visible length of the list) the top edge of the list must be from the top of the content to trigger the `onLoadLater` callback. Thus a value of 0.5 will trigger `onLoadLater` when the start of the content is within half the visible length of the list.
 
 ## Imperative methods
 

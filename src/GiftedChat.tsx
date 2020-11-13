@@ -32,6 +32,7 @@ import Composer from './Composer'
 import Day from './Day'
 import InputToolbar from './InputToolbar'
 import LoadEarlier from './LoadEarlier'
+import LoadLater from './LoadLater'
 import Message from './Message'
 import MessageContainer from './MessageContainer'
 import Send from './Send'
@@ -82,8 +83,12 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   dateFormat?: string
   /* Enables the "Load earlier messages" button */
   loadEarlier?: boolean
+  /* Enables the "Load later messages" button */
+  loadLater?: boolean
   /*Display an ActivityIndicator when loading earlier messages*/
   isLoadingEarlier?: boolean
+  /*Display an ActivityIndicator when loading later messages*/
+  isLoadingLater?: boolean
   /* Whether to render an avatar for the current user; default is false, only show avatars for other users */
   showUserAvatar?: boolean
   /* When false, avatars will only be displayed when a consecutive message is from the same user on the same day; default is false */
@@ -129,6 +134,7 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   /* infinite scroll up when reach the top of messages container, automatically call onLoadEarlier function if exist */
   infiniteScroll?: boolean
   onEndReachedThreshold?: number
+  onStartReachedThreshold?: number
   timeTextStyle?: LeftRightStyle<TextStyle>
   /* Custom action sheet */
   actionSheet?(): {
@@ -147,10 +153,14 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   onSend?(messages: TMessage[]): void
   /*Callback when loading earlier messages*/
   onLoadEarlier?(): void
+  /*Callback when loading later messages*/
+  onLoadLater?(): void
   /*  Render a loading view when initializing */
   renderLoading?(): React.ReactNode
   /* Custom "Load earlier messages" button */
   renderLoadEarlier?(props: LoadEarlier['props']): React.ReactNode
+  /* Custom "Load later messages" button */
+  renderLoadLater?(props: LoadLater['props']): React.ReactNode
   /* Custom message avatar; set to null to not render any avatar for the message */
   renderAvatar?(props: Avatar<TMessage>['props']): React.ReactNode | null
   /* Custom message bubble */
@@ -239,6 +249,10 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     locale: null,
     timeFormat: TIME_FORMAT,
     dateFormat: DATE_FORMAT,
+    loadLater: false,
+    onLoadLater: () => {},
+    isLoadingLater: false,
+    renderLoadLater: null,
     loadEarlier: false,
     onLoadEarlier: () => {},
     isLoadingEarlier: false,
@@ -308,6 +322,10 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     timeFormat: PropTypes.string,
     dateFormat: PropTypes.string,
     isKeyboardInternallyHandled: PropTypes.bool,
+    loadLater: PropTypes.bool,
+    onLoadLater: PropTypes.func,
+    isLoadingLater: PropTypes.bool,
+    renderLoadLater: PropTypes.func,
     loadEarlier: PropTypes.bool,
     onLoadEarlier: PropTypes.func,
     isLoadingEarlier: PropTypes.bool,
@@ -924,6 +942,7 @@ export {
   Day,
   InputToolbar,
   LoadEarlier,
+  LoadLater,
   Message,
   MessageContainer,
   Send,

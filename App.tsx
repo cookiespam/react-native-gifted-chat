@@ -36,12 +36,14 @@ export default class App extends Component {
     step: 0,
     messages: [],
     loadEarlier: true,
+    loadLater: true,
     typingText: null,
     isLoadingEarlier: false,
+    isLoadingLater: false,
     appIsReady: false,
     isTyping: false,
   }
-
+  containerRef = null
   _isMounted = false
 
   componentDidMount() {
@@ -69,13 +71,32 @@ export default class App extends Component {
       if (this._isMounted === true) {
         this.setState((previousState: any) => {
           return {
-            messages: GiftedChat.prepend(
-              previousState.messages,
-              earlierMessages() as IMessage[],
-              Platform.OS !== 'web',
-            ),
+            // messages: GiftedChat.prepend(
+            //   previousState.messages,
+            //   earlierMessages() as IMessage[],
+            //   Platform.OS !== 'web',
+            // ),
             loadEarlier: true,
             isLoadingEarlier: false,
+          }
+        })
+      }
+    }, 1500) // simulating network
+  }
+
+  onLoadLater = () => {
+    this.setState(() => {
+      return {
+        isLoadingLater: true,
+      }
+    })
+
+    setTimeout(() => {
+      if (this._isMounted === true) {
+        this.setState((previousState: any) => {
+          return {
+            loadLater: true,
+            isLoadingLater: false,
           }
         })
       }
@@ -163,6 +184,12 @@ export default class App extends Component {
     this.setState({
       isTyping: !this.state.isTyping,
     })
+    console.log('hi')
+    // this.containerRef.scrollToIndex({
+    //   index: 10,
+    //   viewOffset: 0,
+    //   viewPosition: 1,
+    // })
   }
 
   renderAccessory = () => (
@@ -238,11 +265,13 @@ export default class App extends Component {
       >
         <NavBar />
         <GiftedChat
+          ref={component => (this.containerRef = component)}
           messages={this.state.messages}
           onSend={this.onSend}
           loadEarlier={this.state.loadEarlier}
           onLoadEarlier={this.onLoadEarlier}
-          isLoadingEarlier={this.state.isLoadingEarlier}
+          loadLater={this.state.loadLater}
+          onLoadLater={this.onLoadLater}
           parsePatterns={this.parsePatterns}
           user={user}
           scrollToBottom
@@ -262,6 +291,8 @@ export default class App extends Component {
           timeTextStyle={{ left: { color: 'red' }, right: { color: 'yellow' } }}
           isTyping={this.state.isTyping}
           infiniteScroll
+          onEndReachedThreshold={0}
+          onStartReachedThreshold={0}
         />
       </View>
     )
