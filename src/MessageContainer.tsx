@@ -86,6 +86,7 @@ export interface MessageContainerProps<TMessage extends IMessage> {
   onLoadEarlier?(): void
   onQuickReply?(replies: Reply[]): void
   infiniteScroll?: boolean
+  onEndReachedThreshold?: number
   isLoadingEarlier?: boolean
 }
 
@@ -115,6 +116,7 @@ export default class MessageContainer<
     alignTop: false,
     scrollToBottomStyle: {},
     infiniteScroll: false,
+    onEndReachedThreshold: 0.5,
     isLoadingEarlier: false,
   }
 
@@ -138,6 +140,7 @@ export default class MessageContainer<
     alignTop: PropTypes.bool,
     scrollToBottomStyle: StylePropType,
     infiniteScroll: PropTypes.bool,
+    onEndReachedThreshold: PropTypes.number,
   }
 
   state = {
@@ -324,7 +327,7 @@ export default class MessageContainer<
     if (
       infiniteScroll &&
       // distanceFromEnd > 0 && // https://github.com/FaridSafi/react-native-gifted-chat/issues/1928
-      distanceFromEnd <= 100 &&
+      // distanceFromEnd <= 100 &&
       loadEarlier &&
       onLoadEarlier &&
       !isLoadingEarlier &&
@@ -337,7 +340,7 @@ export default class MessageContainer<
   keyExtractor = (item: TMessage) => `${item._id}`
 
   render() {
-    const { inverted } = this.props
+    const { inverted, onEndReachedThreshold } = this.props
     return (
       <View
         style={
@@ -370,7 +373,7 @@ export default class MessageContainer<
           scrollEventThrottle={100}
           onLayout={this.onLayoutList}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={onEndReachedThreshold || 0.5}
           {...this.props.listViewProps}
         />
       </View>

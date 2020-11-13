@@ -128,6 +128,7 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   isCustomViewBottom?: boolean
   /* infinite scroll up when reach the top of messages container, automatically call onLoadEarlier function if exist */
   infiniteScroll?: boolean
+  onEndReachedThreshold?: number
   timeTextStyle?: LeftRightStyle<TextStyle>
   /* Custom action sheet */
   actionSheet?(): {
