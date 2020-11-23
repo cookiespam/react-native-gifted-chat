@@ -1,3 +1,9 @@
+Forked this project to implement additional features/bug fixes.
+
+- Need to auto-scroll to a particular message of a chat conversation #1157
+- Flatlist - onEndReached fails to trigger, because "distanceFromEnd" has negative value #1928
+- add onLoadLater functionality, which functions as the opposite of onLoadEarlier
+
 <p align="center" >
 <p align="center" >
    <a href="https://reactnative.gallery/FaridSafi/gifted-chat">
