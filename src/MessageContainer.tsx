@@ -94,6 +94,7 @@ export interface MessageContainerProps<TMessage extends IMessage> {
   onStartReachedThreshold?: number
   isLoadingEarlier?: boolean
   isLoadingLater?: boolean
+  loadLaterScroll?: boolean
 }
 
 interface State {
@@ -128,6 +129,7 @@ export default class MessageContainer<
     onStartReachedThreshold: 0,
     isLoadingEarlier: false,
     isLoadingLater: false,
+    loadLaterScroll: false,
   }
 
   static propTypes = {
@@ -145,6 +147,7 @@ export default class MessageContainer<
     inverted: PropTypes.bool,
     loadEarlier: PropTypes.bool,
     loadLater: PropTypes.bool,
+    loadLaterScroll: PropTypes.bool,
     invertibleScrollViewProps: PropTypes.object,
     extraData: PropTypes.object,
     scrollToBottom: PropTypes.bool,
@@ -240,6 +243,7 @@ export default class MessageContainer<
       onLoadLater,
       isLoadingLater,
       loadLater,
+      loadLaterScroll,
       onStartReachedThreshold,
     } = this.props
     // console.log(event.nativeEvent)
@@ -263,7 +267,7 @@ export default class MessageContainer<
       contentOffsetY === 0 ||
       contentOffsetY <= layoutMeasurementHeight * (onStartReachedThreshold || 0)
     ) {
-      if (loadLater && !isLoadingLater && onLoadLater) {
+      if (loadLater && !isLoadingLater && onLoadLater && loadLaterScroll) {
         onLoadLater()
       }
     }

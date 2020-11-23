@@ -333,6 +333,7 @@ interface QuickReplies {
 - **`onLoadLater`** _(Function)_ - Callback when loading later messages
 - **`isLoadingLater`** _(Bool)_ - Display an `ActivityIndicator` when loading later messages
 - **`renderLoadLater`** _(Function)_ - Custom "Load later messages" button
+- **`loadLaterScroll`** _(Function)_ - Triggers `onLoadLater` when reached end of viewport
 - **`renderAvatar`** _(Function)_ - Custom message avatar; set to `null` to not render any avatar for the message
 - **`showUserAvatar`** _(Bool)_ - Whether to render an avatar for the current user; default is `false`, only show avatars for other users
 - **`showAvatarForEveryMessage`** _(Bool)_ - When false, avatars will only be displayed when a consecutive message is from the same user on the same day; default is `false`
