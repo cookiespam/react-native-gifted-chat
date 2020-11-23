@@ -89,6 +89,8 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   isLoadingEarlier?: boolean
   /*Display an ActivityIndicator when loading later messages*/
   isLoadingLater?: boolean
+  /*Triggers onLoadLater when reached end of viewport*/
+  loadLaterScroll?: boolean
   /* Whether to render an avatar for the current user; default is false, only show avatars for other users */
   showUserAvatar?: boolean
   /* When false, avatars will only be displayed when a consecutive message is from the same user on the same day; default is false */
@@ -252,6 +254,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     loadLater: false,
     onLoadLater: () => {},
     isLoadingLater: false,
+    loadLaterScroll: false,
     renderLoadLater: null,
     loadEarlier: false,
     onLoadEarlier: () => {},
@@ -325,6 +328,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     loadLater: PropTypes.bool,
     onLoadLater: PropTypes.func,
     isLoadingLater: PropTypes.bool,
+    loadLaterScroll: PropTypes.bool,
     renderLoadLater: PropTypes.func,
     loadEarlier: PropTypes.bool,
     onLoadEarlier: PropTypes.func,
