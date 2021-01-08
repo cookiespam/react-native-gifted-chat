@@ -50,6 +50,7 @@ export interface MessageProps<TMessage extends IMessage> {
     props: MessageProps<IMessage>,
     nextProps: MessageProps<IMessage>,
   ): boolean
+  invertDayContainer?: boolean
 }
 
 export default class Message<
@@ -70,6 +71,7 @@ export default class Message<
     showUserAvatar: false,
     inverted: true,
     shouldUpdateMessage: undefined,
+    invertDayContainer: false,
   }
 
   static propTypes = {
@@ -90,6 +92,7 @@ export default class Message<
       right: StylePropType,
     }),
     shouldUpdateMessage: PropTypes.func,
+    invertDayContainer: PropTypes.bool,
   }
 
   shouldComponentUpdate(nextProps: MessageProps<TMessage>) {
@@ -175,12 +178,18 @@ export default class Message<
   }
 
   render() {
-    const { currentMessage, nextMessage, position, containerStyle } = this.props
+    const {
+      currentMessage,
+      nextMessage,
+      position,
+      invertDayContainer,
+      containerStyle,
+    } = this.props
     if (currentMessage) {
       const sameUser = isSameUser(currentMessage, nextMessage!)
       return (
         <View>
-          {this.renderDay()}
+          {!invertDayContainer && this.renderDay()}
           {currentMessage.system ? (
             this.renderSystemMessage()
           ) : (
@@ -197,6 +206,7 @@ export default class Message<
               {this.props.position === 'right' ? this.renderAvatar() : null}
             </View>
           )}
+          {invertDayContainer && this.renderDay()}
         </View>
       )
     }

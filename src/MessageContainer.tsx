@@ -95,6 +95,7 @@ export interface MessageContainerProps<TMessage extends IMessage> {
   isLoadingEarlier?: boolean
   isLoadingLater?: boolean
   loadLaterScroll?: boolean
+  invertDayContainer?: boolean
 }
 
 interface State {
@@ -130,6 +131,7 @@ export default class MessageContainer<
     isLoadingEarlier: false,
     isLoadingLater: false,
     loadLaterScroll: false,
+    invertDayContainer: false,
   }
 
   static propTypes = {
@@ -158,6 +160,7 @@ export default class MessageContainer<
     infiniteScroll: PropTypes.bool,
     onEndReachedThreshold: PropTypes.number,
     onStartReachedThreshold: PropTypes.number,
+    invertDayContainer: PropTypes.bool,
   }
 
   state = {
