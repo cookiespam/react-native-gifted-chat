@@ -60,6 +60,7 @@ export interface IMessage {
   sent?: boolean
   received?: boolean
   pending?: boolean
+  deleted?:boolean
   quickReplies?: QuickReplies
 }
 
